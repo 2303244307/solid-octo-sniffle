@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>用户列表</title>
+  <link rel="stylesheet" href="{% static 'plugins\bootstrap-3.4.1-dist\css\bootstrap.css' %}" />
+</head>
+
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <!--   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>   -->
+        <a class="navbar-brand" href="#">员工管理系统</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#">部门管理</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#">登录</a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+              aria-expanded="false">个人中心 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#">Action</a>
+              </li>
+              <li>
+                <a href="#">Another action</a>
+              </li>
+              <li>
+                <a href="#">Something else here</a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li>
+                <a href="#">Separated link</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+  <div class="container" style="width: 800px;">
+    <a href="/depart/add"><button type="button" class="btn btn-success">新建部门</button></a>
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">部门列表</div>
+
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>部门名称</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for obj in DepartList %}
+          <tr>
+            <th scope="row">{{ obj.id }}</th>
+            <td>{{ obj.title }}</td>
+            <td>
+              <a href="/depart/{{ obj.id }}/edit/"><button type="button" class="btn btn-primary btn-sm">编辑</button></a> 
+              <a href="/depart/delete?nid={{ obj.id }}"><button type="button" class="btn btn-danger btn-sm">删除</button></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="{% static 'js\jquery-3.7.1.js' %}"></script>
+  <script src="{% static 'plugins\bootstrap-3.4.1-dist\js\bootstrap.js' %}"></script>
+</body>
+
+</html>
