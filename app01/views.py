@@ -37,7 +37,7 @@ def depart_edit(request, nid):
     """
     接受前端传来参数对部门表进行操作与编辑
     参数:
-    返回
+    返回:
     """
     ObjList = Department.objects.filter(id=nid).first()
     print(request.method)
