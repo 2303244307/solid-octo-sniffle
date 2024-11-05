@@ -46,3 +46,10 @@ def depart_edit(request, nid):
     departname = request.POST.get("departname")
     Department.objects.filter(id=nid).update(title=departname)
     return redirect("/depart/list")
+
+def depart_list1(request):
+    """ 部门列表 """
+    # 去数据库中获取部门列表数据获取所有的部门列表
+    DepartList = Department.objects.all()
+    return render(request, "depart_list1.html", {"DepartList": DepartList, })
+
