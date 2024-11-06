@@ -1,5 +1,5 @@
-{% extents "index_head.html" %}
-{% black content %}
+{% extends "index_head.html" %}
+{% block content %}
 <form method="post">
     {% csrf_token %}
     <div class="container" style="width: 800px;">
@@ -13,4 +13,4 @@
         </div>
     </div>
 </form>
-{% endblack %}
+{% endblock %}
