@@ -46,3 +46,13 @@ def depart_edit(request, nid):
     departname = request.POST.get("departname")
     Department.objects.filter(id=nid).update(title=departname)
     return redirect("/depart/list")
+
+
+def depart_add(request):
+    """ 进行添加部门 """
+    if request.method == "GET":
+        return render(request, "adddepart.html")
+    departtitle = request.POST.get("departname")
+    print(departtitle)
+    Department.objects.create(title=departtitle)
+    return redirect("/depart/list")
