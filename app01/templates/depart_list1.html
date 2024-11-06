@@ -1,0 +1,39 @@
+{% extends "index_head.html" %}
+{% block content %}
+    <div class="container" style="width: 800px;">
+        <a href="/depart/add">
+            <button type="button" class="btn btn-success">新建部门</button>
+        </a>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">部门列表</div>
+
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>部门名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in DepartList %}
+                    <tr>
+                        <th scope="row">{{ obj.id }}</th>
+                        <td>{{ obj.title }}</td>
+                        <td>
+                            <a href="/depart/{{ obj.id }}/edit/">
+                                <button type="button" class="btn btn-primary btn-sm">编辑</button>
+                            </a>
+                            <a href="/depart/delete?nid={{ obj.id }}">
+                                <button type="button" class="btn btn-danger btn-sm">删除</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
