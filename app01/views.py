@@ -19,7 +19,6 @@ def adddepart(request):
     if request.method == "GET":
         return render(request, "adddepart.html")
     departtitle = request.POST.get("departname")
-    print(departtitle)
     Department.objects.create(title=departtitle)
     return redirect("/depart/list")
 
@@ -51,7 +50,7 @@ def depart_edit(request, nid):
 def depart_add(request):
     """ 进行添加部门 """
     if request.method == "GET":
-        return render(request, "adddepart.html")
+        return render(request, "depart_add.html")
     departtitle = request.POST.get("departname")
     print(departtitle)
     Department.objects.create(title=departtitle)
