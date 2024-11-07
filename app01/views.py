@@ -51,7 +51,7 @@ def depart_listpro(request):
     """ 部门列表 模板继承升级版本"""
     # 去数据库中获取部门列表数据获取所有的部门列表
     DepartList = Department.objects.all()
-    return render(request, "depart_list.html1", {"DepartList": DepartList, })
+    return render(request, "depart_list1.html", {"DepartList": DepartList, })
 
 def depart_addpro(request):
     """ 进行添加部门 """
