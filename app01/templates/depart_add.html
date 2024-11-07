@@ -1,0 +1,16 @@
+{% extends "index_head.html" %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <div class="container" style="width: 800px;">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">部门名称</span>
+            <input type="text" class="form-control" placeholder="请输入部门名称1" aria-describedby="basic-addon1"
+                name="departname" />
+        </div>
+        <div>
+            <input class="btn btn-primary" type="submit" value="添加" />
+        </div>
+    </div>
+</form>
+{% endblock %}
