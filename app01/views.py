@@ -30,7 +30,7 @@ def depart_delete(request):
     # 删除对应数据
     Department.objects.filter(id=nid).delete()
     # 页面重定向回到最开始界面
-    return redirect("/depart/list")
+    return redirect("/depart/listpro")
 
 
 def depart_edit(request, nid):
@@ -43,6 +43,36 @@ def depart_edit(request, nid):
     print(request.method)
     if request.method == "GET":
         return render(request, "depart_edit.html", {"ObjList":ObjList,})
+    departname = request.POST.get("departname")
+    Department.objects.filter(id=nid).update(title=departname)
+    return redirect("/depart/list")
+
+def depart_listpro(request):
+    """ 部门列表 模板继承升级版本"""
+    # 去数据库中获取部门列表数据获取所有的部门列表
+    DepartList = Department.objects.all()
+    return render(request, "depart_list.html1", {"DepartList": DepartList, })
+
+def depart_addpro(request):
+    """ 进行添加部门 """
+    if request.method == "GET":
+        return render(request, "depart_add.html")
+    departtitle = request.POST.get("departname")
+    print(departtitle)
+    Department.objects.create(title=departtitle)
+    return redirect("/depart/listpro")
+
+
+def depart_editpro(request, nid):
+    """
+    接受前端传来参数对部门表进行操作与编辑
+    参数:
+    返回:
+    """
+    ObjList = Department.objects.filter(id=nid).first()
+    print(request.method)
+    if request.method == "GET":
+        return render(request, "depart_editpro.html", {"ObjList":ObjList,})
     departname = request.POST.get("departname")
     Department.objects.filter(id=nid).update(title=departname)
     return redirect("/depart/list")
