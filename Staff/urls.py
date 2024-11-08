@@ -28,5 +28,7 @@ urlpatterns = [
     path('depart/listpro/', views.depart_listpro),
     path('depart/addpro/', views.depart_addpro),
     path('depart/<int:nid>/editpro/', views.depart_editpro),
+    path('User/list/', views.User_list),
+    path('User/add/', views.User_add),
 
 ]
