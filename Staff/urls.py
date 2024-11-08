@@ -30,5 +30,7 @@ urlpatterns = [
     path('depart/<int:nid>/editpro/', views.depart_editpro),
     path('User/list/', views.User_list),
     path('User/add/', views.User_add),
+    path('yunge/<str:classname>/<str:methodname>/', views.yunge),
+
 
 ]

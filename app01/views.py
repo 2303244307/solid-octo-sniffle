@@ -3,8 +3,8 @@ from app01.models import Department, UserInfo
 # Create your views here.
 
 
-def test(request):
-    return HttpResponse("测试服务")
+def yunge(request):
+    pass
 
 
 def depart_list(request):
