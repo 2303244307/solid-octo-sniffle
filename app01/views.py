@@ -77,7 +77,7 @@ def depart_editpro(request, nid):
         return render(request, "depart_editpro.html", {"ObjList": ObjList, })
     departname = request.POST.get("departname")
     Department.objects.filter(id=nid).update(title=departname)
-    return redirect("/depart/list")
+    return redirect("/depart/listpro")
 
 
 def User_list(request):

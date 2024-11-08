@@ -28,10 +28,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#">部门管理</a>
+                    <a href="/depart/listpro/">部门管理</a>
                 </li>
                 <li>
-                    <a href="#">用户管理</a>
+                    <a href="/User/list/">用户管理</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -64,8 +64,10 @@
     <!-- /.container-fluid -->
 </nav>
 <!-- 此处使用django的模板语言相当于创建一个空的占位符别的html文件继承时可以直接不考虑共性的 -->
-{% block content %}
-{% endblock %}
+<div style="width: 1000px" class="container">
+    {% block content %}
+    {% endblock %}
+</div>
 <script src="{% static 'js\jquery-3.7.1.js' %}"></script>
 <script src="{% static 'plugins\bootstrap-3.4.1-dist\js\bootstrap.js' %}"></script>
 </body>

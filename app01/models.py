@@ -36,3 +36,5 @@ class UserInfo(models.Model):
     gender_choices = ((1,"男"),(2,"女"))
     # 在django中增加约束1男2女
     gender = models.SmallIntegerField(verbose_name="性别", choices=gender_choices)
+
+    create_date = models.DateTimeField(null=True, blank=True, verbose_name="创建时间")
