@@ -83,15 +83,23 @@ def depart_editpro(request, nid):
 def User_list(request):
     # 获取用户表queryset对象
     UserList = UserInfo.objects.all()
+    # 使用python语法获取需要的数据
+    for obj in UserList:
+        # 获取其中各个字段的参数
+        print(obj.name, obj.password, obj.age, obj.account, obj.depart.title,
+              obj.get_gender_display(), obj.create_date.strftime("%Y-%m-%d"))
+        # , obj.create_date.strftime("%Y-%m-%d") 将日期格式数据进行调整与使用
+        # obj.depart相当于获取对应的Department对象再通过这个对象通过.方式获取对应的属性
     return render(request, "User_List.html", {"UserList": UserList, })
 
 
 def User_add(request):
+    # 添加用户的原始方式
     # 获取部门数据传入
     departList = Department.objects.all()
     # 判断此次请求是什么请求如果是get请求默认加载页面
     if request.method == "GET":
-        return render(request, "User_add.html", {"departList":departList,})
+        return render(request, "User_add.html", {"departList": departList, })
     # 获取前端传出值
     UserName = request.POST.get("UserName")
     passwd = request.POST.get("passwd")
@@ -99,8 +107,9 @@ def User_add(request):
     account = request.POST.get("account")
     depart_id = request.POST.get("depart")
     gender = request.POST.get("gender")
+    create_date = request.POST.get("ctime")
     # 进行表操作插入表数据
     UserInfo.objects.create(name=UserName, password=passwd,
-                            age=age, account=account, depart_id=depart_id, gender=gender)
+                            age=age, account=account, depart_id=depart_id, gender=gender, create_date=create_date)
     # 进行页面重定向回到用户列表界面
     return redirect("/User/list/")

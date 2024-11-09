@@ -15,6 +15,7 @@
                 <th>账户</th>
                 <th>部门</th>
                 <th>性别</th>
+                <th>创建日期</th>
             </tr>
             </thead>
             <tbody>
@@ -24,8 +25,11 @@
                     <td>{{ obj.name }}</td>
                     <td>{{ obj.age }}</td>
                     <td>{{ obj.account }}</td>
-                    <td>{{ obj.depart_id }}</td>
-                    <td>{{ obj.gender }}</td>
+                    <td>{{ obj.depart.title }}</td>
+                    <!-- 在模板语言中使用python代码是不被允许加括号的 -->
+                    <td>{{ obj.get_gender_display }}</td>
+                    <!-- 时间格式内容从后台方法传出来的时候需要进行转换 -->
+                    <td>{{ obj.create_date|date:"Y-m-d H:i:s" }}</td>
                 </tr>
             {% endfor %}
             </tbody>

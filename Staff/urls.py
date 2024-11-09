@@ -24,11 +24,17 @@ urlpatterns = [
     path('depart/add/', views.adddepart),
     path('depart/delete/', views.depart_delete),
     path('depart/<int:nid>/edit/', views.depart_edit),
+    # 部门管理升级版本
     path('depart/listpro/', views.depart_listpro),
     path('depart/addpro/', views.depart_addpro),
     path('depart/<int:nid>/editpro/', views.depart_editpro),
+
+    # 用户管理
     path('User/list/', views.User_list),
     path('User/add/', views.User_add),
+    
+
+    # 通用域名
     path('yunge/<str:classname>/<str:methodname>/', views.yunge),
 
 
