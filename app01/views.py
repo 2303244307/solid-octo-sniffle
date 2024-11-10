@@ -165,15 +165,15 @@ def user_model_form_add(request):
 
 
 def User_edit(request, nid):
+    RowObject = UserInfo.objects.filter(id=nid).first()
     if request.method == "GET":
         # 通过nid获取数据对象
-        RowObject = UserInfo.objects.filter(id=nid).first()
         # 实例化form对象 同时将需要设置默认值的对象传进去
         form = UserModelForm(instance=RowObject)
         # 将设置好存在各个属性的对象进行传入到前端
         return render(request, "user_edit.html", {"form": form, })
     # 提取用户提交的post数据
-    form = UserModelForm(data=request.POST)
+    form = UserModelForm(data=request.POST, instance=RowObject)
     # 对用户提交数据进行校验
     if form.is_valid():
         # 输出获取来的提交数据
