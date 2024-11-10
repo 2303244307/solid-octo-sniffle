@@ -186,3 +186,7 @@ def User_edit(request, nid):
     # 输出错误数据
     print(form.errors)
     return render(request, f"User/{nid}/edit/", {"form": form, })
+
+
+def zxy_cc(request):
+    return render(request, "index.html")
