@@ -116,13 +116,13 @@ def User_add(request):
     return redirect("/User/list/")
 
 
-
 class UserModelForm(forms.ModelForm):
     class Meta:
         # 让model指向模型方便进行解析
         model = UserInfo
         # 可以有input属性的进行放出
-        fields = ["name", "password", "age", "account","depart", "gender", "create_date"]
+        fields = ["name", "password", "age", "account",
+                  "depart", "gender", "create_date"]
         # 在此可以定义出现的列的样式属性
         # widgets = {
         #     "name":forms.TextInput(attrs={"class":"form-control"}),
@@ -131,10 +131,30 @@ class UserModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for name, field in self.fields.items():
-            field.widget.attrs={"class":"form-control"}
+            if name != "password":
+                field.widget.attrs = {"class": "form-control"}
+            else:
+                # 给密码单独设置加密
+                field.widget = forms.PasswordInput(
+                    attrs={"class": "form-control"})
 
 
 def user_model_form_add(request):
-    # 实例化form对象 需要在类中新建一个UserModelForm
-    form = UserModelForm()
-    return render(request, "user_model_form_add.html", {"form":form,})
+    if request.method == "GET":
+        # 实例化form对象 需要在类中新建一个UserModelForm
+        form = UserModelForm()
+        return render(request, "user_model_form_add.html", {"form": form, })
+    # 提取用户提交的post数据
+    form = UserModelForm(data=request.POST)
+    # 对用户提交数据进行校验
+    if form.is_valid():
+        # 输出获取来的提交数据
+        print(form.cleaned_data)
+        # {'name': '张帅帅', 'password': '11111', 'age': 12, 'account': Decimal('22'), 'depart': <Department: 院办>, 'gender': 1, 'create_date': datetime.datetime(2024, 1, 1, 0, 0, tzinfo=zoneinfo.ZoneInfo(key='UTC'))}
+        # django ModeFrom支持另一种将数据保存的写法
+        # 将数据进行存储
+        form.save()
+        return redirect("/User/list/")
+    # 输出错误数据
+    print(form.errors)
+    return render(request, "user_model_form_add.html", {"form": form, })
