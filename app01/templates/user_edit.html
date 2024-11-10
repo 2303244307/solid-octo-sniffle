@@ -1,4 +1,4 @@
-\{% extends "index_head.html" %}
+{% extends "index_head.html" %}
 {% block content %}
 <form method="post" novalidate>
     {% csrf_token %}
@@ -13,6 +13,6 @@
         </div>
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary">注册用户</button>
+    <button type="submit" class="btn btn-primary">修改用户</button>
 </form>
-{% endblock%}
+{% endblock %}

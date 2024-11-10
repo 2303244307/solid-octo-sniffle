@@ -117,6 +117,9 @@ def User_add(request):
 
 
 class UserModelForm(forms.ModelForm):
+    # 在此处还可以给字段进行添加其它的校验, 同时也可以自定义字段名在此进行使用
+    # min_length设置最短长度 max_length设置最长长度  label设置字段描述
+    name = forms.CharField(min_length=3, label="用户名") 
     class Meta:
         # 让model指向模型方便进行解析
         model = UserInfo
@@ -158,3 +161,28 @@ def user_model_form_add(request):
     # 输出错误数据
     print(form.errors)
     return render(request, "user_model_form_add.html", {"form": form, })
+
+
+
+def User_edit(request, nid):
+    if request.method == "GET":
+        # 通过nid获取数据对象
+        RowObject = UserInfo.objects.filter(id=nid).first()
+        # 实例化form对象 同时将需要设置默认值的对象传进去
+        form = UserModelForm(instance=RowObject)
+        # 将设置好存在各个属性的对象进行传入到前端
+        return render(request, "user_edit.html", {"form": form, })
+    # 提取用户提交的post数据
+    form = UserModelForm(data=request.POST)
+    # 对用户提交数据进行校验
+    if form.is_valid():
+        # 输出获取来的提交数据
+        print(form.cleaned_data)
+        # {'name': '张帅帅', 'password': '11111', 'age': 12, 'account': Decimal('22'), 'depart': <Department: 院办>, 'gender': 1, 'create_date': datetime.datetime(2024, 1, 1, 0, 0, tzinfo=zoneinfo.ZoneInfo(key='UTC'))}
+        # django ModeFrom支持另一种将数据保存的写法
+        # 将数据进行存储
+        form.save()
+        return redirect("/User/list/")
+    # 输出错误数据
+    print(form.errors)
+    return render(request, f"User/{nid}/edit/", {"form": form, })

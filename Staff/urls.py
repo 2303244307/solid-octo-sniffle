@@ -33,6 +33,7 @@ urlpatterns = [
     path('User/list/', views.User_list),
     path('User/add/', views.User_add),
     path('User/model_form_add/', views.user_model_form_add),
+     path('User/<int:nid>/edit/', views.User_edit),
 
 
     # 通用域名
