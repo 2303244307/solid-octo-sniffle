@@ -1,0 +1,15 @@
+\{% extends "index_head.html" %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    
+    {% for filed in form %}
+    <div class="form-group row">
+        <label class="col-sm-2">{{ filed.label }}</label>
+        <div class="col-sm-10">
+            {{ filed }}
+        </div>
+    </div>
+    {% endfor %}
+</form>
+{% endblock%}

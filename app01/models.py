@@ -13,6 +13,9 @@ class UserAdmin(models.Model):
 class Department(models.Model):
     """ 部门表 """
     title = models.CharField(verbose_name="标题", max_length=22)   # verbose_name="标题"这是相当于注解字段的含义
+    # 构造魔术方法在输出对象时输出标题内容
+    def __str__(self):
+        return self.title
 
 
 class UserInfo(models.Model):
@@ -28,7 +31,7 @@ class UserInfo(models.Model):
     # 表中定义字段为depart 但django会自动生成对应的数据列，列名为depart_id
     # 如果部门表中对应内容被删除这条内容跟着一起删除被称之为级联删除
     # 级联删除写法
-    depart = models.ForeignKey(to=Department, to_field="id", on_delete=models.CASCADE)
+    depart = models.ForeignKey(to=Department, to_field="id", on_delete=models.CASCADE, verbose_name="部门")
     # 如果部门表被删除，用户对应的改字段置为空
     # depart = models.ForeignKey(to=Department, to_field="id",null=True, blank=True, on_delete=models.SET_NULL)
 

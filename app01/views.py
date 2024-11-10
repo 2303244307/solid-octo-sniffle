@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from app01.models import Department, UserInfo
+from django import forms
 # Create your views here.
 
 
@@ -113,3 +114,27 @@ def User_add(request):
                             age=age, account=account, depart_id=depart_id, gender=gender, create_date=create_date)
     # 进行页面重定向回到用户列表界面
     return redirect("/User/list/")
+
+
+
+class UserModelForm(forms.ModelForm):
+    class Meta:
+        # 让model指向模型方便进行解析
+        model = UserInfo
+        # 可以有input属性的进行放出
+        fields = ["name", "password", "age", "account","depart", "gender", "create_date"]
+        # 在此可以定义出现的列的样式属性
+        # widgets = {
+        #     "name":forms.TextInput(attrs={"class":"form-control"}),
+        # }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            field.widget.attrs={"class":"form-control"}
+
+
+def user_model_form_add(request):
+    # 实例化form对象 需要在类中新建一个UserModelForm
+    form = UserModelForm()
+    return render(request, "user_model_form_add.html", {"form":form,})

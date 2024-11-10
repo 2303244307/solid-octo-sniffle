@@ -32,7 +32,8 @@ urlpatterns = [
     # 用户管理
     path('User/list/', views.User_list),
     path('User/add/', views.User_add),
-    
+    path('User/model_form_add/', views.user_model_form_add),
+
 
     # 通用域名
     path('yunge/<str:classname>/<str:methodname>/', views.yunge),
