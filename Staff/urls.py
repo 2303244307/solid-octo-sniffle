@@ -34,6 +34,8 @@ urlpatterns = [
     path('User/add/', views.User_add),
     path('User/model_form_add/', views.user_model_form_add),
     path('User/<int:nid>/edit/', views.User_edit),
+    path('User/<int:nid>/delete/', views.User_delete),
+
 
     # 爱心代码
     path('zxy/cc/', views.zxy_cc),

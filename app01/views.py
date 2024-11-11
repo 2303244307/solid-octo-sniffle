@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect
 from app01.models import Department, UserInfo
 from django import forms
+
+
 # Create your views here.
 
 
@@ -119,7 +121,8 @@ def User_add(request):
 class UserModelForm(forms.ModelForm):
     # 在此处还可以给字段进行添加其它的校验, 同时也可以自定义字段名在此进行使用
     # min_length设置最短长度 max_length设置最长长度  label设置字段描述
-    name = forms.CharField(min_length=3, label="用户名") 
+    name = forms.CharField(min_length=3, label="用户名")
+
     class Meta:
         # 让model指向模型方便进行解析
         model = UserInfo
@@ -163,8 +166,8 @@ def user_model_form_add(request):
     return render(request, "user_model_form_add.html", {"form": form, })
 
 
-
 def User_edit(request, nid):
+    # 通过传入nid获取数据对象
     RowObject = UserInfo.objects.filter(id=nid).first()
     if request.method == "GET":
         # 通过nid获取数据对象
@@ -172,7 +175,7 @@ def User_edit(request, nid):
         form = UserModelForm(instance=RowObject)
         # 将设置好存在各个属性的对象进行传入到前端
         return render(request, "user_edit.html", {"form": form, })
-    # 提取用户提交的post数据
+    # 提取用户提交的post数据，并通过数据对象表达此次为修改操作
     form = UserModelForm(data=request.POST, instance=RowObject)
     # 对用户提交数据进行校验
     if form.is_valid():
@@ -180,12 +183,21 @@ def User_edit(request, nid):
         print(form.cleaned_data)
         # {'name': '张帅帅', 'password': '11111', 'age': 12, 'account': Decimal('22'), 'depart': <Department: 院办>, 'gender': 1, 'create_date': datetime.datetime(2024, 1, 1, 0, 0, tzinfo=zoneinfo.ZoneInfo(key='UTC'))}
         # django ModeFrom支持另一种将数据保存的写法
-        # 将数据进行存储
+        # 将数据进行存储此
+        # 此处进行保存是用户在前端界面输入的值，如果需要需要在代码中写值可以是像操作时间一般就是直接后台进行写入的
+        # form.instance.字段名="某值"
         form.save()
         return redirect("/User/list/")
     # 输出错误数据
     print(form.errors)
     return render(request, f"User/{nid}/edit/", {"form": form, })
+
+
+def User_delete(request, nid):
+    # 通过传入nid用来删除对象
+    UserInfo.objects.filter(id=nid).delete()
+    # 页面重定向返回用户列表的位置
+    return redirect("/User/list/")
 
 
 def zxy_cc(request):

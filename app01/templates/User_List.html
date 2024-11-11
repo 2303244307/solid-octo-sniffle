@@ -33,7 +33,7 @@
                 <!-- 时间格式内容从后台方法传出来的时候需要进行转换 -->
                 <td>{{ obj.create_date|date:"Y-m-d H:i:s" }}</td>
                 <td><a href="/User/{{ obj.id }}/edit/" class="btn btn-primary bin-sm">编辑</a>
-                    <a href="" class="btn btn-danger btn-sm">删除</a></td>
+                    <a href="/User/{{ obj.id }}/delete/" class="btn btn-danger btn-sm">删除</a></td>
             </tr>
             {% endfor %}
         </tbody>
