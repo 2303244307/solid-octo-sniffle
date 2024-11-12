@@ -41,3 +41,19 @@ class UserInfo(models.Model):
     gender = models.SmallIntegerField(verbose_name="性别", choices=gender_choices)
 
     create_date = models.DateTimeField(null=True, blank=True, verbose_name="创建时间")
+
+
+
+class PrettyNum(models.Model):
+    """ 账户表 """
+    mobile = models.CharField(verbose_name="手机号", max_length=11)
+    price = models.DecimalField(verbose_name="单价", max_digits=10,decimal_places=2)
+    level_choices = (
+        (1, "1级"),
+        (2, "2级"),
+        (3, "3级"),
+        (4, "4级")
+    )
+    level = models.SmallIntegerField(verbose_name="级别", choices=level_choices)
+    status_choices = ((1, "已占用"), (2, "未占用"))
+    status = models.SmallIntegerField(verbose_name="状态", choices=status_choices)
