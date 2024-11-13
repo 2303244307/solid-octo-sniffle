@@ -1,0 +1,17 @@
+{% extends "index_head.html" %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group row">
+        <label class="col-sm-2">{{ field.label }}</label>
+        <div class="col-sm-10">
+            {{ field }}
+            <!-- 提示字段错误信息进行验证 -->
+            <div style="color: red;">{{ filed.errors }}</div>
+        </div>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">增加靓号</button>
+</form>
+{% endblock %}

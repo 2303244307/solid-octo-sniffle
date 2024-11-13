@@ -36,7 +36,9 @@ urlpatterns = [
     path('User/<int:nid>/edit/', views.User_edit),
     path('User/<int:nid>/delete/', views.User_delete),
 
-
+    # 靓号管理界面
+    path('PrettyNum/list/', views.PrettyNum_list),
+    path('PrettyNum/add/', views.PrettyNum_add),
     # 爱心代码
     path('zxy/cc/', views.zxy_cc),
     # 通用域名

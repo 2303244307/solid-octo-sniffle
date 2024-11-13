@@ -1,0 +1,45 @@
+{% extends "index_head.html" %}
+{% block content %}
+<div class="container" style="width: 800px;">
+    <a href="/PrettyNum/add/">
+        <button type="button" class="btn btn-success">添加靓号</button>
+    </a>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">靓号列表</div>
+
+        <!-- Table -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>手机号</th>
+                <th>单价</th>
+                <th>等级</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in prettyList %}
+                <tr>
+                    <th scope="row">{{ obj.id }}</th>
+                    <td>{{ obj.mobile }}</td>
+                    <td>{{ obj.price }}</td>
+                    <td>{{ obj.get_level_display }}</td>
+                    <td>{{ obj.get_status_display }}</td>
+                    <td>
+                        <a href="#">
+                            <button type="button" class="btn btn-primary btn-sm">编辑</button>
+                        </a>
+                        <a href="#">
+                            <button type="button" class="btn btn-danger btn-sm">删除</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

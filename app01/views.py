@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from app01.models import Department, UserInfo
+from app01.models import Department, UserInfo, PrettyNum
 from django import forms
 
 
@@ -198,6 +198,47 @@ def User_delete(request, nid):
     UserInfo.objects.filter(id=nid).delete()
     # 页面重定向返回用户列表的位置
     return redirect("/User/list/")
+
+
+def PrettyNum_list(request):
+    # 获取表中所有数据
+    prettyList = PrettyNum.objects.all()
+    return render(request, "PrettyNum_list.html", {"prettyList":prettyList,} )
+
+# 增加modeform表单对象用于使用
+class PrettyNumModelForm(forms.ModelForm):
+    # 此处可以添加对其它字段的校验
+    class Meta:
+        # 表明该表单类为那张表进行创建
+        model = PrettyNum
+        # 将需要可以输出输入框在此进行设置
+        fields = ["mobile", "price", "level", "status"]
+        # 单独对上述列设置属性
+        # widgets = {
+        #     # 对表中元素单独进行设置
+        #     # "mobile": forms.TextInput(attrs={"class": "form-control"})
+        # }
+            
+
+    def __init__(self, *ages, **kwargs):
+        super().__init__(self, *ages, **kwargs)
+        for name, field in self.fields.items():
+            # 通过遍历循环的形式来设置样式
+            field.widget.attrs={"class": "form-control"}
+
+
+def PrettyNum_add(request):
+    if request.method == "GET":
+         # 实例化表单对象
+        form = PrettyNumModelForm()
+        return render(request, "PrettyNum_add.html", {"form": form,})
+    # 获取post请求传输过来的表单数据
+    form = PrettyNumModelForm(data=request.POST)
+    # 将获取数据保存至表中
+    form.save()
+    # 界面重定向返回靓号管理界面
+    return redirect("/PrettyNum/list/")
+    
 
 
 def zxy_cc(request):
