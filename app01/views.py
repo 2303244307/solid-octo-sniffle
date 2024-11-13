@@ -221,7 +221,7 @@ class PrettyNumModelForm(forms.ModelForm):
             
 
     def __init__(self, *ages, **kwargs):
-        super().__init__(self, *ages, **kwargs)
+        super().__init__(*ages, **kwargs)
         for name, field in self.fields.items():
             # 通过遍历循环的形式来设置样式
             field.widget.attrs={"class": "form-control"}
