@@ -1,0 +1,4 @@
+# 去除app文件中内容编译
+app01/__pycache__/
+# 去除项目二进制文件
+Staff/__pycache__/

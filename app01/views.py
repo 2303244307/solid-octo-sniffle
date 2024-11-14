@@ -242,4 +242,5 @@ def PrettyNum_add(request):
 
 
 def zxy_cc(request):
+    # 此处添加爱心html
     return render(request, "index.html")
