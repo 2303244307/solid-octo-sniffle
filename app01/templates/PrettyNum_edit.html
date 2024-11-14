@@ -1,0 +1,10 @@
+{% extends "index_head.html" %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {% for filed in form %}
+        
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">修改靓号</button>
+</form>
+{% endblock %}

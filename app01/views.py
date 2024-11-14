@@ -211,8 +211,12 @@ class PrettyNumModelForm(forms.ModelForm):
     class Meta:
         # 表明该表单类为那张表进行创建
         model = PrettyNum
-        # 将需要可以输出输入框在此进行设置
-        fields = ["mobile", "price", "level", "status"]
+        # 将需要可以输出输入框在此进行设置，表示获取选择的字段
+        # fields = ["mobile", "price", "level", "status"]
+        # 表示获取所有的字段
+        fields = "__all__"
+        # 还可以使用exclude用来排除那些字段，排除那些字段剩下的字段进行显示
+        # exclude = []
         # 单独对上述列设置属性
         # widgets = {
         #     # 对表中元素单独进行设置
@@ -234,13 +238,22 @@ def PrettyNum_add(request):
         return render(request, "PrettyNum_add.html", {"form": form,})
     # 获取post请求传输过来的表单数据
     form = PrettyNumModelForm(data=request.POST)
-    # 将获取数据保存至表中
-    form.save()
-    # 界面重定向返回靓号管理界面
-    return redirect("/PrettyNum/list/")
+    # 进行数据验证
+    if form.is_valid():
+        # 将获取数据保存至表中
+        form.save()
+        # 界面重定向返回靓号管理界面
+        return redirect("/PrettyNum/list/")
+    # 如果数据验证错误重新回到界面，将错误信息传入
+    return redirect("/PrettyNum/add")
     
 
-
+def PrettyNum_edit(request, nid):
+    """ 用户编辑界面 """
+    # 实例化表单对象
+    edit_form = PrettyNumModelForm(instance=nid)
+    if request.method == "GET":
+        return render(request, "PrettyNum_edit", {"form": edit_form})
 def zxy_cc(request):
     # 此处添加爱心html
     return render(request, "index.html")
