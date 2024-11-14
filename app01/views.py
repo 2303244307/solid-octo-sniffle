@@ -190,7 +190,7 @@ def User_edit(request, nid):
         return redirect("/User/list/")
     # 输出错误数据
     print(form.errors)
-    return render(request, f"User/{nid}/edit/", {"form": form, })
+    return render(request, "user_edit.html", {"form": form, })
 
 
 def User_delete(request, nid):
@@ -245,15 +245,26 @@ def PrettyNum_add(request):
         # 界面重定向返回靓号管理界面
         return redirect("/PrettyNum/list/")
     # 如果数据验证错误重新回到界面，将错误信息传入
-    return redirect("/PrettyNum/add")
-    
+    return render(request, "PrettyNum_add.html", {"form": form,})
 
 def PrettyNum_edit(request, nid):
     """ 用户编辑界面 """
     # 实例化表单对象
-    edit_form = PrettyNumModelForm(instance=nid)
+    rowobjects = PrettyNum.objects.filter(id=nid).first()
     if request.method == "GET":
-        return render(request, "PrettyNum_edit", {"form": edit_form})
+        edit_form = PrettyNumModelForm(instance=rowobjects)
+        return render(request, "PrettyNum_edit.html", {"form": edit_form})
+    # 将post请求数据传入，以及选择需要修改的数据
+    edit_form = PrettyNumModelForm(instance=rowobjects, data=request.POST)
+    # 进行数据验证
+    if edit_form.is_valid():
+        edit_form.save()
+        return redirect("/PrettyNum/list/")
+    # 如果数据验证未通过
+    return render(request, "PrettyNum_edit.html", {"form": edit_form})
+
+
+
 def zxy_cc(request):
     # 此处添加爱心html
     return render(request, "index.html")

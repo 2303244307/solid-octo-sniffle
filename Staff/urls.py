@@ -39,6 +39,7 @@ urlpatterns = [
     # 靓号管理界面
     path('PrettyNum/list/', views.PrettyNum_list),
     path('PrettyNum/add/', views.PrettyNum_add),
+    path('PrettyNum/<int:nid>/edit/', views.PrettyNum_edit),
     # 爱心代码
     path('zxy/cc/', views.zxy_cc),
     # 通用域名
