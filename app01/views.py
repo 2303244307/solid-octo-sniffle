@@ -258,10 +258,18 @@ def PrettyNum_edit(request, nid):
     edit_form = PrettyNumModelForm(instance=rowobjects, data=request.POST)
     # 进行数据验证
     if edit_form.is_valid():
+        # 数据验证成功进行保存数据
         edit_form.save()
+        # 域名重定向返回靓号列表
         return redirect("/PrettyNum/list/")
     # 如果数据验证未通过
     return render(request, "PrettyNum_edit.html", {"form": edit_form})
+
+
+
+def PrettyNum_delete(request, nid):
+    PrettyNum.objects.filter(id=nid).delete()
+    return redirect("/PrettyNum/list/")
 
 
 
