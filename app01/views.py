@@ -1,5 +1,6 @@
+from django.core.validators import RegexValidator
 from django.shortcuts import render, HttpResponse, redirect
-from app01.models import Department, UserInfo, PrettyNum
+from app01.models import Department, UserInfo, PrettyNum, UserAdmin
 from django import forms
 
 
@@ -208,6 +209,11 @@ def PrettyNum_list(request):
 # 增加modeform表单对象用于使用
 class PrettyNumModelForm(forms.ModelForm):
     # 此处可以添加对其它字段的校验
+    # from django.core.validators import RegexValidator 需要导入这个模块对某个属性输入框进行校验
+    mobile = forms.CharField(
+        label="手机号码",
+        validators=[RegexValidator("r'^1[3-9]d{9}$", "手机号码格式校验错误")]
+    )
     class Meta:
         # 表明该表单类为那张表进行创建
         model = PrettyNum
@@ -276,3 +282,20 @@ def PrettyNum_delete(request, nid):
 def zxy_cc(request):
     # 此处添加爱心html
     return render(request, "index.html")
+
+class UserAdminModelform(forms.ModelForm):
+    class Meta:
+        model = UserAdmin
+        # 默认取出所有表字段数据用来进行添加
+        fields = "__all__"
+        # 字典方式对表单设计样式
+        # widgets = {
+        #     "name": forms.TextInput(attrs={"class": "form-control"}),
+        #     "age": forms.TextInput(attrs={"class": "form-control"}),
+        #     "password": forms.PasswordInput(attrs={"class": "form-control"}),
+        # }
+    def __init__(self, *args, **kwargs):
+        # 此处调用父类的构造方法是因为需要通过父类的构造方法设置一些默认属性，再给属性中添加额外的属性，因为在此处相当于重写了构造方法
+        super().__init__(*args, **kwargs)
+        for name,filed in self.fields.items():
+            filed.widget.attrs = {"class": "form-control"}
