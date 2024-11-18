@@ -14,6 +14,7 @@ def IdUnid(Id: str) -> bool:
     """
     print(Id)
     # 正则表达式的匹配
+    # 这里r的作用是用来使转义字符失效表达出正确的字符
     m1 = re.match(r"\bhi\b", Id)
     return m1
 

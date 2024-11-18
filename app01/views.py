@@ -1,4 +1,4 @@
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, ValidationError
 from django.shortcuts import render, HttpResponse, redirect
 from app01.models import Department, UserInfo, PrettyNum, UserAdmin
 from django import forms
@@ -210,10 +210,12 @@ def PrettyNum_list(request):
 class PrettyNumModelForm(forms.ModelForm):
     # 此处可以添加对其它字段的校验
     # from django.core.validators import RegexValidator 需要导入这个模块对某个属性输入框进行校验
-    mobile = forms.CharField(
-        label="手机号码",
-        validators=[RegexValidator("r'^1[3-9]d{9}$", "手机号码格式校验错误")]
-    )
+    # 验证方式1
+    # mobile = forms.CharField(
+    #     label="手机号码",
+    #     # 此处如果存在多个正则进行判断的时候则可以通过逗号进行分割然后往下填写
+    #     validators=[RegexValidator(r"^1[3-9]d{9}$", "手机号码格式校验错误")]
+    # )
     class Meta:
         # 表明该表单类为那张表进行创建
         model = PrettyNum
@@ -236,6 +238,16 @@ class PrettyNumModelForm(forms.ModelForm):
             # 通过遍历循环的形式来设置样式
             field.widget.attrs={"class": "form-control"}
 
+
+    # 验证方式2的写法这种方法被称之为勾子方法首先需要定义一个方法然后方法名为clean_字段名，在其中再进行对字段校验
+    def clean_mobile(self):
+        # 在此处获取键盘输入内容
+        text_mobile = self.cleaned_data["mobile"]
+        if len(text_mobile) != 11:
+            # 如果字段长度不等于11验证不通过，此处需要引入ValidationError函数from django.core.validators import RegexValidator, ValidationError
+            raise ValidationError("手机号错误")
+        # 验证通过则在此返回验证通过的内容
+        return text_mobile
 
 def PrettyNum_add(request):
     if request.method == "GET":
