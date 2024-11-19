@@ -265,15 +265,30 @@ def PrettyNum_add(request):
     # 如果数据验证错误重新回到界面，将错误信息传入
     return render(request, "PrettyNum_add.html", {"form": form,})
 
+
+class prettyeditModeForm(forms.ModelForm):
+    # 增加编辑表单类用于和新建区分同时设置不同样式
+    # disabled=True此处的作用是为了设置该输入框不可修改
+    mobile = forms.CharField(label="手机号", disabled=True)
+    class Meta:
+        model = PrettyNum
+        # 可以在新建的modeform中定义那些可被编辑
+        fields = ["mobile", "price", "level", "status"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name,field in self.fields.items():
+            field.widget.attrs={"class": "form-control"}
+
 def PrettyNum_edit(request, nid):
     """ 用户编辑界面 """
     # 实例化表单对象
     rowobjects = PrettyNum.objects.filter(id=nid).first()
     if request.method == "GET":
-        edit_form = PrettyNumModelForm(instance=rowobjects)
+        edit_form = prettyeditModeForm(instance=rowobjects)
         return render(request, "PrettyNum_edit.html", {"form": edit_form})
     # 将post请求数据传入，以及选择需要修改的数据
-    edit_form = PrettyNumModelForm(instance=rowobjects, data=request.POST)
+    edit_form = prettyeditModeForm(instance=rowobjects, data=request.POST)
     # 进行数据验证
     if edit_form.is_valid():
         # 数据验证成功进行保存数据
