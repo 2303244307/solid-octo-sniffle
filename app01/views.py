@@ -246,6 +246,11 @@ class PrettyNumModelForm(forms.ModelForm):
         if len(text_mobile) != 11:
             # 如果字段长度不等于11验证不通过，此处需要引入ValidationError函数from django.core.validators import RegexValidator, ValidationError
             raise ValidationError("手机号错误")
+        
+         # 判断传入手机号是否存在
+        if PrettyNum.objects.filter(mobile=text_mobile).exists():
+             raise ValidationError("手机号已存在不可添加")
+        # 在这还可以通过正则表达式进行判断和使用
         # 验证通过则在此返回验证通过的内容
         return text_mobile
 
@@ -269,7 +274,7 @@ def PrettyNum_add(request):
 class prettyeditModeForm(forms.ModelForm):
     # 增加编辑表单类用于和新建区分同时设置不同样式
     # disabled=True此处的作用是为了设置该输入框不可修改
-    mobile = forms.CharField(label="手机号", disabled=True)
+    # mobile = forms.CharField(label="手机号", disabled=True)
     class Meta:
         model = PrettyNum
         # 可以在新建的modeform中定义那些可被编辑
@@ -279,6 +284,21 @@ class prettyeditModeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for name,field in self.fields.items():
             field.widget.attrs={"class": "form-control"}
+
+    
+    # 对编辑界面的手机号添加限制，限制不允许与除自己之外的手机号重复
+    def clean_mobile(self):
+        print(self.cleaned_data, type(self.cleaned_data))
+        # 获取界面输入的手机号
+        text_mobile = self.cleaned_data["mobile"]
+        # 获取当前得数据id
+        id = self.instance.pk
+        # 验证除这个id外是否还有手机号与界面传入的相等
+        if PrettyNum.objects.filter(mobile=text_mobile).exclude(id=id).exists():
+            raise ValidationError("修改手机号存在重复")
+        # 如果符合条件返回取值
+        return text_mobile
+
 
 def PrettyNum_edit(request, nid):
     """ 用户编辑界面 """
