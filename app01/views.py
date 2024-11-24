@@ -202,9 +202,28 @@ def User_delete(request, nid):
 
 
 def PrettyNum_list(request):
+    # 测试通过字典传包进行检索数据
+    # 在filter中是可以接受字典传传参的，通过字典解包传递参数
+    # 数据插入
+    # insert()
+    objParmdict = {"id": 1, "mobile": "1555855685",}
+    # objStr = PrettyNum.objects.filter(id=1, mobile="1555855685")
+    # 通过字典传入参数进行解析获取内容
+    objStr = PrettyNum.objects.filter(**objParmdict)
+    print(objStr)
+    # 定义空字典方便后续进行传参
+    value = {}
+    # 在此处添加搜索功能 获取get请求传输过来的内容如果为传输默认设置为空
+    mobileserch = request.GET.get("mob", "")
+    if mobileserch:
+        # 如果get请求传入了搜索框参数使用通过字典进行获取
+        value["mobile__contains"] = mobileserch
     # 获取表中所有数据
-    prettyList = PrettyNum.objects.all()
-    return render(request, "PrettyNum_list.html", {"prettyList":prettyList,} )
+    # prettyList = PrettyNum.objects.all()
+    # 此处获取表中数据修改为进行检索数据，如果数据不存在传空默认检索所有,通过字典解包的形式传入参数
+    prettyList = PrettyNum.objects.filter(**value)
+    # 此处将检索内容传输至检索框
+    return render(request, "PrettyNum_list.html", {"prettyList":prettyList, "mob":mobileserch,} )
 
 # 增加modeform表单对象用于使用
 class PrettyNumModelForm(forms.ModelForm):
@@ -346,3 +365,9 @@ class UserAdminModelform(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for name,filed in self.fields.items():
             filed.widget.attrs = {"class": "form-control"}
+
+def insert():
+    i = 0
+    for i in range(499):
+        # 在循环内部建立表数据
+        PrettyNum.objects.create(mobile="11111111111", price=112.1, level=1, status="2")

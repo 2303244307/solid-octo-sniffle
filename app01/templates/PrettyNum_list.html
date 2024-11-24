@@ -1,9 +1,20 @@
 {% extends "index_head.html" %}
 {% block content %}
 <div class="container" style="width: 800px;">
-    <a href="/PrettyNum/add/">
-        <button type="button" class="btn btn-success">添加靓号</button>
-    </a>
+    <div class="clearfix">
+        <form method="get">
+            <a href="/PrettyNum/add/">
+                <button type="button" class="btn btn-success">添加靓号</button>
+            </a>
+            <!-- 此处使用form表单进行get请求 -->
+            <div style="width: 400ox; float: right;">
+                <div class="form-group">
+                    <input type="text" placeholder="请输入你需要检索的手机号" name="mob" value={{ mob }} >
+                    <button type="submit" class="btn">搜索</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">靓号列表</div>
@@ -11,17 +22,17 @@
         <!-- Table -->
         <table class="table">
             <thead>
-            <tr>
-                <th>ID</th>
-                <th>手机号</th>
-                <th>单价</th>
-                <th>等级</th>
-                <th>状态</th>
-                <th>操作</th>
-            </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>手机号</th>
+                    <th>单价</th>
+                    <th>等级</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
             </thead>
             <tbody>
-            {% for obj in prettyList %}
+                {% for obj in prettyList %}
                 <tr>
                     <th scope="row">{{ obj.id }}</th>
                     <td>{{ obj.mobile }}</td>
@@ -37,7 +48,7 @@
                         </a>
                     </td>
                 </tr>
-            {% endfor %}
+                {% endfor %}
             </tbody>
         </table>
     </div>
