@@ -8,7 +8,7 @@ from django import forms
 
 
 def yunge(request):
-    pass
+    return HttpResponse("此功能尚在开发现在暂无")
 
 
 def depart_list(request):
@@ -230,11 +230,11 @@ class PrettyNumModelForm(forms.ModelForm):
     # 此处可以添加对其它字段的校验
     # from django.core.validators import RegexValidator 需要导入这个模块对某个属性输入框进行校验
     # 验证方式1
-    # mobile = forms.CharField(
-    #     label="手机号码",
-    #     # 此处如果存在多个正则进行判断的时候则可以通过逗号进行分割然后往下填写
-    #     validators=[RegexValidator(r"^1[3-9]d{9}$", "手机号码格式校验错误")]
-    # )
+    mobile = forms.CharField(
+        label="手机号码",
+        # 此处如果存在多个正则进行判断的时候则可以通过逗号进行分割然后往下填写
+        validators=[RegexValidator(r"^1[3-9]d{9}$", "手机号码格式校验错误")]
+    )
     class Meta:
         # 表明该表单类为那张表进行创建
         model = PrettyNum
